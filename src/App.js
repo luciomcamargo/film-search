@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 class App extends Component {
   render() {
     return (
-      <Router basename='/JSON_Data_Search'>
+      <Router basename='/film_search'>
         <div>
           <Switch>
             <Route exact path='/' component={Search} />
