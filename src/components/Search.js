@@ -7,28 +7,7 @@ export class Search extends Component {
     super(props);
     this.state = {
       search: '',
-      data: [
-        {
-          Poster:
-            'https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg',
-          Title: 'The Shawshank Redemption'
-        },
-        {
-          Poster:
-            'https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg',
-          Title: 'The Godfather'
-        },
-        {
-          Poster:
-            'https://m.media-amazon.com/images/M/MV5BNWIwODRlZTUtY2U3ZS00Yzg1LWJhNzYtMmZiYmEyNmU1NjMzXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg',
-          Title: 'Forrest Gump'
-        },
-        {
-          Poster:
-            'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg',
-          Title: 'Inception'
-        }
-      ]
+      data: []
     };
   }
   componentDidMount() {
@@ -49,9 +28,9 @@ export class Search extends Component {
 
       .get(`http://www.omdbapi.com/?s=${this.state.search}&apikey=bbc0a2e7`)
       .then(res => {
-        const data = res.data.Search.map(({ Poster, Title }) => ({
+        const data = res.data.Search.map(({ Poster, imdbID }) => ({
           Poster,
-          Title
+          imdbID
         }));
         this.setState(state => ({ data: data }));
       });
@@ -61,11 +40,11 @@ export class Search extends Component {
     const posters = this.state.data.map(
       film =>
         film.Poster !== 'N/A' && (
-          <Link to={`/movie/${film.Title}`}>
+          <Link to={`/movie/${film.imdbID}`}>
             <img
               style={{ width: '20vw', height: '65vh', margin: '0.5em' }}
               src={`${film.Poster}`}
-              alt={`${film.Title}`}
+              alt={`${film.imdbID}`}
             />
           </Link>
         )
@@ -81,7 +60,7 @@ export class Search extends Component {
             display: 'flex',
             justifyContent: 'center',
             fontFamily: 'Abril Fatface',
-            paddingTop: '5vh'
+            paddingTop: '15vh'
           }}
         >
           <h1>Movie Database</h1>
@@ -97,6 +76,7 @@ export class Search extends Component {
               type='text'
               value={this.state.search}
               onChange={this.handleChange}
+              placeholder='Search for any movie...'
             />
             <button className='btn btn-primary'>Search</button>
           </form>

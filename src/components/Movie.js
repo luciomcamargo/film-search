@@ -7,33 +7,36 @@ export default class Movie extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: '',
       movie: {},
       trailer: ''
     };
   }
-  componentDidMount() {
-    axios
-      .get(
-        `http://www.omdbapi.com/?t=${
-          this.props.match.params.id
-        }&apikey=bbc0a2e7`
-      )
-      .then(res => {
-        const movie = res.data;
-        this.setState(state => ({ movie: movie }));
-      });
-    axios
-      .get(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${this
-          .props.match.params.id +
-          'trailer'}&key=AIzaSyDedt0diA_SmrieWAl131sjGuecBVr6u8s`
-      )
-      .then(res => {
-        const trailer = res.data;
-        this.setState(state => ({ trailer: trailer.items[0].id.videoId }));
-        console.log(trailer.items[0].id.videoId);
-      });
+  async componentDidMount() {
+    const firstRequest = await axios.get(
+      `http://www.omdbapi.com/?i=${
+        this.props.match.params.id
+      }&plot=full&apikey=bbc0a2e7`
+    );
+    const secondRequest = await axios.get(
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${firstRequest
+        .data.Title +
+        firstRequest.data.Year +
+        'trailer'}&key=AIzaSyDedt0diA_SmrieWAl131sjGuecBVr6u8s`
+    );
+
+    this.setState(state => ({ movie: firstRequest.data }));
+    if (
+      secondRequest.data.items === undefined ||
+      secondRequest.data.items.length === 0
+    ) {
+      this.setState(state => ({
+        trailer: ''
+      }));
+    } else {
+      this.setState(state => ({
+        trailer: secondRequest.data.items[0].id.videoId
+      }));
+    }
   }
 
   render() {
@@ -46,7 +49,7 @@ export default class Movie extends Component {
             <h3>Back</h3>
           </Link>
 
-          <h1>{movie.Title}</h1>
+          <h2>{movie.Title}</h2>
         </div>
 
         <div style={{ display: 'flex' }}>
@@ -70,7 +73,7 @@ export default class Movie extends Component {
 
           <div className='info'>
             <div style={{ marginLeft: '8vw' }}>
-              <h4>{movie.Plot}</h4>
+              <h5>{movie.Plot}</h5>
             </div>
 
             <div style={{ paddingLeft: '8vw' }}>
