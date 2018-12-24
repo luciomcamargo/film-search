@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import './Movie.css';
 
 export default class Movie extends Component {
   constructor(props) {
     super(props);
     this.state = {
       search: '',
-      movie: {}
+      movie: {},
+      trailer: ''
     };
   }
   componentDidMount() {
@@ -19,56 +22,68 @@ export default class Movie extends Component {
       .then(res => {
         const movie = res.data;
         this.setState(state => ({ movie: movie }));
-        console.log(this.state.movie);
+      });
+    axios
+      .get(
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${this
+          .props.match.params.id +
+          'trailer'}&key=AIzaSyDedt0diA_SmrieWAl131sjGuecBVr6u8s`
+      )
+      .then(res => {
+        const trailer = res.data;
+        this.setState(state => ({ trailer: trailer.items[0].id.videoId }));
+        console.log(trailer.items[0].id.videoId);
       });
   }
 
   render() {
     const { movie } = this.state;
-    const posterStyle = {
-      marginLeft: '5vw',
-      marginBottom: '3vw'
-    };
-    const infoStyle = {
-      display: 'flex',
-      justifyContent: 'space-evenly',
-      alignItems: 'center',
-      flexDirection: 'column',
-      margin: '1vw',
-      fontFamily: 'Montserrat'
-    };
 
     return (
       <div style={{ background: '#aaafb7' }}>
-        <h1
-          style={{
-            textAlign: 'center',
-            fontFamily: 'Abril Fatface',
-            padding: '3vh'
-          }}
-        >
-          {movie.Title}
-        </h1>
+        <div className='head'>
+          <Link to={`/`}>
+            <h3>Back</h3>
+          </Link>
+
+          <h1>{movie.Title}</h1>
+        </div>
+
         <div style={{ display: 'flex' }}>
-          <div style={posterStyle}>
+          <div className='container'>
             <img
-              style={{ width: '55vh' }}
+              className='image'
               src={`${movie.Poster}`}
               alt={`${movie.Title}`}
             />
+            <div className='middle'>
+              <iframe
+                title={`${movie.Title}`}
+                width='460'
+                height='440'
+                src={`https://www.youtube.com/embed/${this.state.trailer}`}
+                allow='fullscreen'
+              />
+              <div className='text'>{movie.Title}</div>
+            </div>
           </div>
 
-          <div style={infoStyle}>
-            <div style={{ margin: '4vw' }}>
+          <div className='info'>
+            <div style={{ marginLeft: '8vw' }}>
               <h4>{movie.Plot}</h4>
             </div>
 
-            <div style={{ padding: '4vw' }}>
+            <div style={{ paddingLeft: '8vw' }}>
               <h5>Director : {movie.Director}</h5>
               <h5>Actors : {movie.Actors}</h5>
               <h6>Release Date: {movie.Released}</h6>
               <h6>Genre : {movie.Genre}</h6>
               <h6>Awards : {movie.Awards}</h6>
+
+              <h5>
+                <i className='fas fa-arrow-left fa-2x' /> Hover over poster to
+                watch trailer!
+              </h5>
             </div>
           </div>
         </div>
