@@ -51,8 +51,7 @@ export default class Movie extends Component {
 
           <h2>{movie.Title}</h2>
         </div>
-
-        <div style={{ display: 'flex' }}>
+        <div className='body'>
           <div className='container'>
             <img
               className='image'
@@ -67,16 +66,15 @@ export default class Movie extends Component {
                 src={`https://www.youtube.com/embed/${this.state.trailer}`}
                 allow='fullscreen'
               />
-              <div className='text'>{movie.Title}</div>
             </div>
           </div>
 
           <div className='info'>
-            <div style={{ marginLeft: '8vw' }}>
+            <div>
               <h5>{movie.Plot}</h5>
             </div>
 
-            <div style={{ paddingLeft: '8vw' }}>
+            <div>
               <h5>Director : {movie.Director}</h5>
               <h5>Actors : {movie.Actors}</h5>
               <h6>Release Date: {movie.Released}</h6>
