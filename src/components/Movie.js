@@ -43,51 +43,46 @@ export default class Movie extends Component {
     const { movie } = this.state;
 
     return (
-      <div style={{ background: '#aaafb7' }}>
-        <div className='head'>
+      <div className='container'>
+        <header>
           <Link to={`/`}>
-            <h3>Back</h3>
+            <p>Back</p>
           </Link>
-
-          <h2>{movie.Title}</h2>
-        </div>
-        <div className='body'>
-          <div className='container'>
-            <img
-              className='image'
-              src={`${movie.Poster}`}
-              alt={`${movie.Title}`}
+          {movie.Title}
+        </header>
+        <main className='container'>
+          <img
+            className='image'
+            src={`${movie.Poster}`}
+            alt={`${movie.Title}`}
+          />
+          {typeof movie.Poster !== 'undefined' && (
+            <iframe
+              className='middle'
+              title={`${movie.Title}`}
+              width='460'
+              height='440'
+              src={`https://www.youtube.com/embed/${this.state.trailer}`}
+              allow='fullscreen'
             />
-            <div className='middle'>
-              <iframe
-                title={`${movie.Title}`}
-                width='460'
-                height='440'
-                src={`https://www.youtube.com/embed/${this.state.trailer}`}
-                allow='fullscreen'
-              />
-            </div>
-          </div>
-
+          )}
+        </main>
+        <aside>
           <div className='info'>
-            <div>
-              <h5>{movie.Plot}</h5>
-            </div>
+            <h5>{movie.Plot}</h5>
 
-            <div>
-              <h5>Director : {movie.Director}</h5>
-              <h5>Actors : {movie.Actors}</h5>
-              <h6>Release Date: {movie.Released}</h6>
-              <h6>Genre : {movie.Genre}</h6>
-              <h6>Awards : {movie.Awards}</h6>
+            <h5>Director : {movie.Director}</h5>
+            <h5>Actors : {movie.Actors}</h5>
+            <h6>Release Date: {movie.Released}</h6>
+            <h6>Genre : {movie.Genre}</h6>
+            <h6>Awards : {movie.Awards}</h6>
 
-              <h5>
-                <i className='fas fa-arrow-left fa-2x' /> Hover over poster to
-                watch trailer!
-              </h5>
-            </div>
+            <h5>
+              <i className='fas fa-arrow-left fa-2x' /> Hover over poster to
+              watch trailer!
+            </h5>
           </div>
-        </div>
+        </aside>
       </div>
     );
   }

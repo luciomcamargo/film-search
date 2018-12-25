@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import './Search.css';
 
 export class Search extends Component {
   constructor(props) {
@@ -11,6 +12,19 @@ export class Search extends Component {
     };
   }
   componentDidMount() {
+    if (this.state.data === []) {
+      axios
+
+        .get(`http://www.omdbapi.com/?s=godfather&apikey=bbc0a2e7`)
+        .then(res => {
+          const data = res.data.Search.map(({ Poster, imdbID }) => ({
+            Poster,
+            imdbID
+          }));
+          this.setState(state => ({ data: data }));
+        });
+    }
+
     try {
       const state = window.localStorage.getItem('state');
       this.setState({ ...JSON.parse(state) });
@@ -62,6 +76,7 @@ export class Search extends Component {
             fontFamily: 'Abril Fatface',
             paddingTop: '15vh'
           }}
+          className='header'
         >
           <h1>Movie Database</h1>
         </div>

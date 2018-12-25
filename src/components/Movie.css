@@ -1,35 +1,65 @@
-.body {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
 .container {
-  position: relative;
-  width: 50%;
-  margin-left: 5vw;
-  margin-bottom: 3vw;
+  display: grid;
+  grid-gap: 0.5em;
+  background: #aaafb7;
 }
 
+header {
+  grid-column: 1 / span 5;
+  font-family: 'Abril Fatface';
+  height: 10vw;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 3vw;
+}
+p {
+  margin: 0;
+  padding: 0;
+  font-size: 2vw;
+  margin-left: -8vw;
+}
+
+aside {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+main {
+  grid-column: 1 / span 4;
+}
+
+aside {
+  grid-column: span 1;
+  height: 35vw;
+}
 .image {
-  width: 26vw;
   opacity: 1;
-  display: block;
   height: auto;
-  transition: 0.5s ease;
+  transition: 0.1s linear;
   backface-visibility: hidden;
+  max-height: 100%;
+  max-width: 100%;
+  padding-left: 6vw;
+  padding-right: 6vw;
 }
-
 .middle {
-  transition: 0.5s ease;
+  transition: 0.1s linear;
   opacity: 0;
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 60%;
+  left: 25%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   text-align: center;
   margin-top: -15px;
+  max-height: 100%;
+  max-width: 100%;
+  width: 35%;
+  height: 55%;
 }
-
 .container:hover .image {
   opacity: 0.3;
 }
@@ -37,30 +67,35 @@
 .container:hover .middle {
   opacity: 1;
 }
-
-.head {
-  font-family: 'Abril Fatface';
-  padding: '3vh';
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  text-align: center;
-}
 .info {
-  display: 'flex';
-  justify-content: 'flex-start';
-  align-items: 'center';
-  flex-direction: 'column';
+  max-height: 100%;
+  max-width: 100%;
   font-family: 'Montserrat';
-  margin-left: -100px;
-  padding-right: 100px;
 }
-iframe {
-  margin-left: 7vw;
-  margin-bottom: -1vw;
-}
-@media only screen and (max-width: 768px) {
-  /* For mobile phones: */
-  iframe {
-    margin-left: 25%;
+
+@media (max-width: 700px) {
+  .container {
+    height: 100vh;
+  }
+  main,
+  aside {
+    grid-column: 1 / span 5;
+  }
+  img {
+    width: 100%;
+    max-height: 100vh;
+    max-width: 100vh;
+  }
+  .middle {
+    width: 90%;
+    height: 80%;
+    margin-left: 25vw;
+  }
+  aside {
+    height: 100vh;
+  }
+  .info {
+    max-height: 100vh;
+    max-width: 100vh;
   }
 }

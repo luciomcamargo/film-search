@@ -1,0 +1,13 @@
+@media (max-width: 700px) {
+  img {
+    width: initial !important;
+    height: initial !important;
+    margin: initial !important;
+  }
+  input {
+    width: 50vw !important;
+  }
+  .header {
+    padding-top: initial !important;
+  }
+}
