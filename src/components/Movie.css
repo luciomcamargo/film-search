@@ -39,7 +39,6 @@ aside {
   opacity: 1;
   height: auto;
   transition: 0.1s linear;
-  backface-visibility: hidden;
   max-height: 100%;
   max-width: 100%;
   padding-left: 6vw;
@@ -59,9 +58,6 @@ aside {
   max-width: 100%;
   width: 35%;
   height: 55%;
-}
-.image:hover {
-  opacity: 0.3;
 }
 
 .middle:hover {

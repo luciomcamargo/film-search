@@ -8,7 +8,8 @@ export default class Movie extends Component {
     super(props);
     this.state = {
       movie: {},
-      trailer: ''
+      trailer: '',
+      imageStatus: 'loading'
     };
   }
   async componentDidMount() {
@@ -38,9 +39,19 @@ export default class Movie extends Component {
       }));
     }
   }
+  handleImageLoaded = () => {
+    this.setState({ imageStatus: 'loaded' });
+  };
+
+  handleImageErrored = () => {
+    document.getElementById('img').style.display = 'none';
+    document.getElementById('img').style.display = 'block';
+    this.setState({ imageStatus: 'failed to load' });
+  };
 
   render() {
     const { movie } = this.state;
+    console.log(this.state.imageStatus);
 
     return (
       <div className='container'>
@@ -50,13 +61,8 @@ export default class Movie extends Component {
           </Link>
           {movie.Title}
         </header>
-        <main className='container'>
-          <img
-            className='image'
-            src={`${movie.Poster}`}
-            alt={`${movie.Title}`}
-          />
-          {typeof movie.Poster !== 'undefined' && (
+        <main className='container' id='img'>
+          {this.state.imageStatus === 'loaded' && (
             <iframe
               className='middle'
               title={`${movie.Title}`}
@@ -66,6 +72,13 @@ export default class Movie extends Component {
               allow='fullscreen'
             />
           )}
+          <img
+            className='image'
+            src={`${movie.Poster}`}
+            alt={`${movie.Title}`}
+            onLoad={this.handleImageLoaded}
+            onError={this.handleImageErrored}
+          />
         </main>
         <aside>
           <div className='info'>
